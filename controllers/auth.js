@@ -2,10 +2,7 @@ var waterfall = require('async-waterfall');
 var mySql = require("../sqlconnection");
 var bcrypt = require("bcrypt");
 
-
-
-
-
+//Registration API
 exports.register=(req,res)=>{
     waterfall([
         (callback) => {
@@ -15,7 +12,7 @@ exports.register=(req,res)=>{
                 callback("Parameters missing",[]);
              }
         },(params,callback)=> {
-            console.log(req.body,"<-===")
+            console.log(req.body,"<======")
             bcrypt.hash(req.body.password,10,(err,hash)=>{
                 if(err){
                     callback("Technical Issue",[])
@@ -47,7 +44,7 @@ exports.register=(req,res)=>{
     });   
 }
 
-
+//Login API
 exports.login=(req,res)=>{
     waterfall([
         (callback) => {
@@ -58,9 +55,9 @@ exports.login=(req,res)=>{
              }
         },(params,callback)=> {
             var Sql = "SELECT * FROM users WHERE email_id = '"+params.email_id+"'";
-            mySql.query(Sql,(err,data)=>{
-                if(err){
-                    console.log(err)
+            mySql.query(Sql,(error,data)=>{
+                if(error){
+                    console.log(error)
                     //callback("Data not found",[])
                 }else{
                     if(data){
